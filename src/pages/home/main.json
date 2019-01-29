@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "首页",
+  "usingComponents": {
+    "van-button": "../../../static/vant/button/index",
+    "van-search": "../../../static/vant/search/index",
+    "van-tabbar-item": "../../../static/vant/tabbar-item/index",
+    "van-action-sheet": "../../../static/vant/action-sheet/index"
+  }
+
+
+}
