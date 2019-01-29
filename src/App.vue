@@ -12,6 +12,7 @@ export default {
 </script>
 
 <style>
+@import "./../static/fonts/iconfont.css";
 .container {
   height: 100%;
   display: flex;
@@ -20,6 +21,11 @@ export default {
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
 }
 /* this rule will be remove */
 * {

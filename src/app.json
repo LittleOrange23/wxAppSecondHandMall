@@ -3,13 +3,14 @@
     "pages/index/main",
     "pages/logs/main",
     "pages/counter/main",
-    "pages/home/main"
+    "pages/home/main",
+    "pages/my/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffd95f",
     "navigationBarTitleText": "好物屋",
-    "navigationBarTextStyle": "#fff"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#a9b7b7",
@@ -25,13 +26,13 @@
       {
         "selectedIconPath": "./static/images/index/comment-selected.png",
         "iconPath": "./static/images/index/comment.png",
-        "pagePath": "pages/message/main",
+        "pagePath": "pages/logs/main",
         "text": "消息"
       },
       {
         "selectedIconPath": "./static/images/index/publish.png",
         "iconPath": "./static/images/index/publish.png",
-        "pagePath": "pages/publish/main",
+        "pagePath": "pages/counter/main",
         "text": "发布"
       },
       {

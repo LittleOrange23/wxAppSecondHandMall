@@ -1,24 +1,15 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+  <div class="container">
+    <div class="userinfo">
+      <!-- <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
       <div class="userinfo-nickname">
         <card :text="userInfo.nickName"></card>
-      </div>
+      </div>-->
+      <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
+      <open-data class="userinfo-nickname" type="userNickName" lang="zh_CN"></open-data>
     </div>
+    <a href="/pages/home/main" class="home">去往首页</a>
 
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
   </div>
 </template>
 
@@ -32,14 +23,19 @@ export default {
       userInfo: {}
     }
   },
-
+  methods: {
+    toNews () {
+      const url = '../home/main'
+      wx.navigateTo({ url })
+    }
+  },
   components: {
     card
   },
 
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
+    toHome () {
+      const url = '../home/main'
       wx.navigateTo({ url })
     },
     getUserInfo () {
@@ -55,7 +51,7 @@ export default {
       })
     },
     clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+      // console.log('clickHandle:', msg, ev)
     }
   },
 
@@ -66,7 +62,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .userinfo {
   display: flex;
   flex-direction: column;
@@ -74,10 +70,11 @@ export default {
 }
 
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
+  width: 200rpx;
+  height: 200rpx;
   margin: 20rpx;
   border-radius: 50%;
+  /* border-radius: 50%; */
 }
 
 .userinfo-nickname {

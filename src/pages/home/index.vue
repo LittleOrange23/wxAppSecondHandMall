@@ -52,7 +52,7 @@
           <div class="goods-info">
             <div class="goods-top">
               <div class="lt">
-                <img src="/static/images/index/me-selected.png">
+                <img src="/static/images/index/me-selected.png"/>
               </div>
               <div class="ct">
                 <div class="nickname">神装小丸子</div>
@@ -86,7 +86,7 @@
           <div class="goods-info">
             <div class="goods-top">
               <div class="lt">
-                <img src="/static/images/index/me-selected.png">
+                <img src="/static/images/index/me-selected.png"/>
               </div>
               <div class="ct">
                 <div class="nickname">神装小丸子</div>
@@ -120,7 +120,7 @@
           <div class="goods-info">
             <div class="goods-top">
               <div class="lt">
-                <img src="/static/images/index/me-selected.png">
+                <img src="/static/images/index/me-selected.png"/>
               </div>
               <div class="ct">
                 <div class="nickname">神装小丸子</div>
@@ -157,7 +157,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       msg: '这是一个用户组件',
       value: 'search',
@@ -170,18 +170,19 @@ export default {
       autoplay: true,
       interval: 5000,
       duration: 1000,
-      active: 0,
-    }  },
-  created() {
+      active: 0
+    }
+  },
+  created () {
     // this.getList()
 
   },
   methods: {
-    toNews() {
-      const url = "../news/main"
+    toNews () {
+      const url = '../news/main'
       wx.navigateTo({ url })
     },
-    getList() {
+    getList () {
       wx.request({
         // url: 'static/mock/list.json',
         // method: 'GET',
@@ -192,12 +193,11 @@ export default {
         //   console.log(res)
         // }
       })
-    },
+    }
 
-  },
+  }
 
 }
-
 </script>
 <style>
 .main {
