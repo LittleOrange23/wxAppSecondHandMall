@@ -10,17 +10,25 @@
     </div>
     <div class="allorder">
 
+      <div class="order"><img src="/static/images/my/allorder.png" /><span>全部订单</span></div>
+      <div class="order"><img src="/static/images/my/nopay1.png" /><span>未支付</span></div>
+      <div class="order"><img src="/static/images/my/nosend.png" /><span>未发货</span></div>
+      <div class="order"><img src="/static/images/my/noget.png" /><span>未收货</span></div>
+      <div class="order"><img src="/static/images/my/nocomment.png" /><span>未评论</span></div>
+
     </div>
     <div class="content">
       <ul>
-        <li>我收藏的</li>
-        <li>我发布的</li>
-        <li>我卖出的</li>
-        <li>我买到的</li>
-        <li>我赞过的</li>
+        <li><img src="/static/images/my/like.png" /> <span>我收藏的</span></li>
+        <li><img src="/static/images/my/publish.png" /><span>我发布的</span></li>
+        <li><img src="/static/images/my/Recieve.png" /><span>我买到的</span></li>
+        <li><img src="/static/images/my/Send.png" /><span>我卖出的</span></li>
+        <li><img src="/static/images/my/like1.png" /><span>我赞过的</span></li>
       </ul>
     </div>
-    <div class="help-feedback"></div>
+    <div class="help-feedback">
+      <img src="/static/images/my/light.png" alt=""><span>帮助与反馈</span>
+    </div>
   </div>
 </template>
 
@@ -74,6 +82,19 @@ export default {
   margin-top: 15px;
   height: 160rpx;
 }
+.allorder .order {
+  float: left;
+  width: 60px;
+  height: 80px;
+  padding-left: 14px;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #9c9c9c;
+}
+.allorder .order img {
+  width: 50px;
+  height: 50px;
+}
 .content {
   width: 750rpx;
   background: #fff;
@@ -83,16 +104,42 @@ export default {
 .content ul{
 }
 .content ul li {
-  line-height: 100rpx;
+  /* line-height: 100rpx; */
   list-style: none;
   border-bottom: 1px solid #eee;
   height: 100rpx;
+  position: relative;
+}
+.content ul li img {
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+
+}
+.content ul li span {
+  position: absolute;
+  top: 13px;
+  font-size: 16px;
+  color: #9c9c9c;
 }
 .help-feedback {
   width: 750rpx;
   background: #fff;
   margin-top: 15px;
   height: 100px;
-  border-bottom: 1px solid #eee
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+.help-feedback img {
+  /* display: inline; */
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+}
+.help-feedback span {
+  position: absolute;
+  top: 13px;
+  font-size: 16px;
+  color: #9c9c9c;
 }
 </style>
