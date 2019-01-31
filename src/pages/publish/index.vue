@@ -31,14 +31,7 @@
           <input type="checkbox">
           <span>我已阅读并同意《物品发布公约》</span>
         </p>
-        <button
-          type="primary"
-          size="default"
-          plain="false"
-          disabled="false"
-          bindtap="primary"
-        >发布</button>
-
+        <button type="primary" size="default" plain="false" disabled="false" bindtap="primary">发布</button>
       </form>
     </scroll-view>
   </div>

@@ -5,7 +5,9 @@
     "pages/counter/main",
     "pages/home/main",
     "pages/my/main",
-    "pages/publish/main"
+    "pages/publish/main",
+    "pages/message/main",
+    "pages/goodslist/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -27,7 +29,7 @@
       {
         "selectedIconPath": "./static/images/index/comment-selected.png",
         "iconPath": "./static/images/index/comment.png",
-        "pagePath": "pages/logs/main",
+        "pagePath": "pages/message/main",
         "text": "消息"
       },
       {

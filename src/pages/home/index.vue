@@ -22,140 +22,37 @@
       <!-- 导航 -->
       <div class="nav">
         <ul>
-          <li>
+          <li @click="toGoodList">
             <img src="/static/images/home/book.png"/>
             <div class="list-title">图书文学</div>
           </li>
-          <li>
+          <li @click="toGoodList">
             <img src="/static/images/home/digital2.png"/>
             <div class="list-title">数码电子</div>
           </li>
-          <li>
+          <li @click="toGoodList">
             <img src="/static/images/home/life.png"/>
             <div class="list-title">生活用品</div>
           </li>
-          <li>
+          <li @click="toGoodList">
             <img src="/static/images/home/other.png"/>
             <div class="list-title">其他更多</div>
           </li>
         </ul>
       </div>
       <div class="goods">
-        <div class="goods-sort">
-          <ul>
-            <li>默认排序</li>
-            <li>价格最低</li>
-            <li>人气最高</li>
-          </ul>
-        </div>
-        <div class="goods-list">
-          <div class="goods-info">
-            <div class="goods-top">
-              <div class="lt">
-                <img src="/static/images/index/me-selected.png"/>
-              </div>
-              <div class="ct">
-                <div class="nickname">神装小丸子</div>
-                <div class="time">2019-1-28</div>
-              </div>
-              <div class="rt">￥50</div>
-            </div>
-            <div class="goods-bottom">
-              <img src="/static/images/home/life.png"/>
-              <p>这个一个描述</p>
-            </div>
-          </div>
-          <div class="publish-info">
-            <div class="publish-info-left">
-              <span class="icon iconfont icon-location">合肥</span>
-            </div>
-            <div class="publish-info-right">
-              <span class="icon iconfont icon-hand-like">
-                <span>1</span>
-              </span>
-              <span class="icon iconfont icon-cc-message">
-                <span>3</span>
-              </span>
-              <span class="icon iconfont icon-eye">
-                <span>3</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="goods-list">
-          <div class="goods-info">
-            <div class="goods-top">
-              <div class="lt">
-                <img src="/static/images/index/me-selected.png"/>
-              </div>
-              <div class="ct">
-                <div class="nickname">神装小丸子</div>
-                <div class="time">2019-1-28</div>
-              </div>
-              <div class="rt">￥50</div>
-            </div>
-            <div class="goods-bottom">
-              <img src="/static/images/home/life.png"/>
-              <p>这个一个描述</p>
-            </div>
-          </div>
-          <div class="publish-info">
-            <div class="publish-info-left">
-              <span class="icon iconfont icon-location">合肥</span>
-            </div>
-            <div class="publish-info-right">
-              <span class="icon iconfont icon-hand-like">
-                <span>1</span>
-              </span>
-              <span class="icon iconfont icon-cc-message">
-                <span>3</span>
-              </span>
-              <span class="icon iconfont icon-eye">
-                <span>3</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="goods-list">
-          <div class="goods-info">
-            <div class="goods-top">
-              <div class="lt">
-                <img src="/static/images/index/me-selected.png"/>
-              </div>
-              <div class="ct">
-                <div class="nickname">神装小丸子</div>
-                <div class="time">2019-1-28</div>
-              </div>
-              <div class="rt">￥50</div>
-            </div>
-            <div class="goods-bottom">
-              <img src="/static/images/home/life.png"/>
-              <p>这个一个描述</p>
-            </div>
-          </div>
-          <div class="publish-info">
-            <div class="publish-info-left">
-              <span class="icon iconfont icon-location">合肥</span>
-            </div>
-            <div class="publish-info-right">
-              <span class="icon iconfont icon-hand-like">
-                <span>1</span>
-              </span>
-              <span class="icon iconfont icon-cc-message">
-                <span>3</span>
-              </span>
-              <span class="icon iconfont icon-eye">
-                <span>3</span>
-              </span>
-            </div>
-          </div>
-        </div>
+        <goodsort></goodsort>
+        <goodslist></goodslist>
+        <goodslist></goodslist>
+        <goodslist></goodslist>
       </div>
     </scroll-view>
   </div>
 </template>
 
 <script>
+import goodslist from '@/components/goodslist'
+import goodsort from "@/components/goodsort"
 export default {
   data () {
     return {
@@ -173,13 +70,17 @@ export default {
       active: 0
     }
   },
+  components: {
+    goodslist,
+    goodsort
+  },
   created () {
     // this.getList()
 
   },
   methods: {
-    toNews () {
-      const url = '../news/main'
+    toGoodList () {
+      const url = '../goodslist/main'
       wx.navigateTo({ url })
     },
     getList () {
@@ -240,68 +141,5 @@ export default {
   background: #fff;
   width: 100%;
 }
-.goods-sort {
-  width: 100%;
-  height: 50rpx;
-  margin-top: 10px;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-.goods-sort ul li {
-  width: 230rpx;
-  height: 50rpx;
-  float: left;
-  list-style: none;
-  text-align: center;
-  font-size: 16px;
-}
-.goods-list {
-  margin: 10px;
-}
-.goods-info {
-  padding: 10px;
-  border-radius: 10px;
-  background: #eee;
-}
-.goods-top .lt {
-  float: left;
-}
-.goods-top .lt img {
-  width: 50px;
-  height: 50px;
-}
-.goods-top .ct {
-  float: left;
-  padding-left: 10px;
-  margin-top: 5px;
-}
-.goods-top .ct .nickname {
-  color: #9c9c9c;
-  font-size: 16px;
-}
-.goods-top .ct .time {
-  color: #ccc;
-  font-size: 14px;
-}
-.goods-top .rt {
-  float: right;
-  color: #ff6a6a;
-}
-.goods-bottom {
-  border-bottom: 1px solid #eee;
-}
-.publish-info {
-  height: 50rpx;
-  padding-top: 10px;
-  color: #9c9c9c;
-}
-.publish-info-left {
-  float: left;
-}
-.publish-info-right {
-  float: right;
-}
-.publish-info-right span {
-  padding-left: 5px;
-}
+
 </style>
