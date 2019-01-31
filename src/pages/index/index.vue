@@ -8,7 +8,7 @@
       <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
       <open-data class="userinfo-nickname" type="userNickName" lang="zh_CN"></open-data>
     </div>
-    <a href="/pages/home/main" class="home">去往首页</a>
+    <a href="/pages/logs/main" class="home">去往首页</a>
 
   </div>
 </template>

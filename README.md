@@ -25,7 +25,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ## 页面设计
 ### 字体
-- 字体颜色：`#9c9c`
+- 字体颜色：`#9c9c9c`
 - 字体大小：大的16px;小的14px
 - 下划线颜色： `#eee`
 

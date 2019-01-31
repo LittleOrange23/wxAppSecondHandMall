@@ -33,9 +33,11 @@
 			"current": 0,
 			"list": [
 				{
-					"id": -1,
-					"name": "my",
-					"pathName": "pages/my/main"
+					"id": 0,
+					"name": "publish",
+					"pathName": "pages/publish/main",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

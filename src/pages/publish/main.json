@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "发布",
+  "usingComponents": {
+    "van-field": "/static/vant/field/index",
+    "van-picker": "/static/vant/picker/index",
+    "van-action-sheet": "/static/vant/action-sheet/index"
+  }
+}

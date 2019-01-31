@@ -4,7 +4,8 @@
     "pages/logs/main",
     "pages/counter/main",
     "pages/home/main",
-    "pages/my/main"
+    "pages/my/main",
+    "pages/publish/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -32,7 +33,7 @@
       {
         "selectedIconPath": "./static/images/index/publish.png",
         "iconPath": "./static/images/index/publish.png",
-        "pagePath": "pages/counter/main",
+        "pagePath": "pages/publish/main",
         "text": "发布"
       },
       {
