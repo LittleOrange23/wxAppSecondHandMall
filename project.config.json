@@ -34,8 +34,8 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "message",
-					"pathName": "pages/publish/main",
+					"name": "goodslist",
+					"pathName": "pages/index/main",
 					"query": "",
 					"scene": null
 				}

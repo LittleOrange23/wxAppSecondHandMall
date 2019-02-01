@@ -8,7 +8,7 @@
       <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
       <open-data class="userinfo-nickname" type="userNickName" lang="zh_CN"></open-data>
     </div>
-    <a href="/pages/logs/main" class="home">去往首页</a>
+    <button @click="toHome" class="home">去往首页</button>
 
   </div>
 </template>
@@ -23,20 +23,13 @@ export default {
       userInfo: {}
     }
   },
-  methods: {
-    toNews () {
-      const url = '../home/main'
-      wx.navigateTo({ url })
-    }
-  },
   components: {
     card
   },
-
   methods: {
     toHome () {
       const url = '../home/main'
-      wx.navigateTo({ url })
+      wx.switchTab({ url })
     },
     getUserInfo () {
       // 调用登录接口
