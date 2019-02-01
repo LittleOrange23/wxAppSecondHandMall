@@ -1,7 +1,6 @@
 <template>
   <div class="content">
-    <scroll-view scroll-y style="height: 93%;" scroll-top="100">
-      <form method="get" class="publish-form">
+    <!-- <form method="get" class="publish-form">
         <input class="goods-title" type="text" placeholder="标题" required>
         <textarea name id cols="30" rows="10" placeholder="请描述下您要做的事……" required></textarea>
         <div class="price">
@@ -32,8 +31,56 @@
           <span>我已阅读并同意《物品发布公约》</span>
         </p>
         <button type="primary" size="default" plain="false" disabled="false" bindtap="primary">发布</button>
-      </form>
-    </scroll-view>
+    </form>-->
+    <form submit="formSubmit">
+      <wux-cell-group title="描述 >">
+        <wux-cell hover-class="none">
+          <wux-input placeholder="标题"/>
+        </wux-cell>
+        <wux-cell>
+          <textarea name id cols="30" rows="10" placeholder="请描述下您要做的事……" required></textarea>
+        </wux-cell>
+      </wux-cell-group>
+      <wux-cell>
+        <wux-upload listType="picture-card" max="4" url="https://www.skyvow.cn/api/common/file">
+          <text>上传照片</text>
+        </wux-upload>
+      </wux-cell>
+
+      <wux-cell-group title="标价 >">
+        <wux-cell hover-class="none">
+          <wux-input label="开个价" defaultValue="1024" extra="￥"/>
+        </wux-cell>
+        <wux-cell hover-class="none">
+          <wux-input label="原价" defaultValue="1024" extra="￥"/>
+        </wux-cell>
+      </wux-cell-group>
+      <wux-cell>
+        <view class="section goods-kind">
+          <span>物品分类:</span>
+          <picker class="goods-kind-info" @change="bindPickerChange" :value="index" :range="kind">
+            <view class="picker">{{kind[index]}}</view>
+          </picker>
+        </view>
+      </wux-cell>
+
+      <wux-cell-group title="联系方式">
+        <wux-cell hover-class="none">
+          <wux-input clear label="联系人" placeholder="请输入联系人(选填)"/>
+        </wux-cell>
+        <wux-cell hover-class="none">
+          <wux-input clear label="联系电话" placeholder="请输入联系电话(选填)"/>
+        </wux-cell>
+      </wux-cell-group>
+      <wux-cell>
+        <textarea class="remark" cols="30" rows="5" placeholder="请输入备注(选填)……" required></textarea>
+      </wux-cell>
+
+      <wux-cell class="rule" title="我已阅读《物品发布规则》">
+        <wux-selectable slot="header" wux-class="checkbox" value="1"/>
+      </wux-cell>
+      <wux-button block outline type="energized">发布</wux-button>
+    </form>
   </div>
 </template>
 
@@ -46,8 +93,10 @@ export default {
 
   data() {
     return {
-      array: ['请选择分类 >', '图书文学', '数码电子', '生活用品', '其他'],
+      kind: ['请选择分类 >', '图书文学', '数码电子', '生活用品', '其他'],
       index: 0,
+      title1: '',
+      value1: '',
     }
   },
   methods: {
@@ -62,104 +111,40 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scope>
 .content {
   width: 700rpx;
   padding: 0 20rpx;
-}
-.publish-form {
-  /* width: 700rpx;
-  padding: 0 10px; */
-}
-.goods-title {
-  border-bottom: 1px solid #ccc;
-  height: 50px;
-}
-.goods-price {
-  width: 600rpx;
-  border-bottom: 1px solid #ccc;
-  height: 50px;
-}
-.price {
-  position: relative;
-}
-.price span {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  color: #9c9c9c;
-}
-.old-price {
-  width: 600rpx;
-  border-bottom: 1px solid #ccc;
-  height: 50px;
-}
-textarea {
-  font-style: 14px;
-}
-.goods-kind {
-  width: 700rpx;
-  position: relative;
-  height: 50px;
-  margin-top: 10px;
-  border-bottom: 1px solid #ccc;
-  text-align: center;
-  color: #9c9c9c;
-}
-.goods-kind span {
-  position: absolute;
-  left: 0;
-  top: 8px;
-  color: #9c9c9c;
-}
-.goods-kind-info {
-  width: 700rpx;
-  /* float: right; */
-  position: absolute;
-  right: 0;
-  top: 8px;
-  color: #9c9c9c;
-}
-.link {
-  width: 700rpx;
-  position: relative;
-  height: 50px;
-  border-bottom: 1px solid #ccc;
-}
-.link span {
-  position: absolute;
-  top: 8px;
-  left: 0;
-}
-.link-name {
-  position: absolute;
-  width: 450rpx;
-  top: 8px;
-  right: 0;
-}
-.link-tel {
-  position: absolute;
-  width: 450rpx;
-  top: 8px;
-  right: 0;
-}
-.remark {
-  height: 100px;
-}
-.rule {
-  color: #9c9c9c;
-  font-size: 14px;
-  padding-bottom: 10px;
-}
-.rule input {
-  zoom: 80%;
-}
-button {
-  width: 700rpx;
-  margin: 0 auto;
-  /* float: left; */
-  margin-bottom: 20px;
-  background: #ffd95f !important;
-  color: #fff !important;
+  textarea {
+    background: #fff;
+    font-style: 14px;
+  }
+  .goods-kind {
+    width: 700rpx;
+    position: relative;
+    height: 50px;
+    margin-top: 10px;
+    text-align: center;
+    color: #9c9c9c;
+    span {
+      position: absolute;
+      left: 0;
+      top: 8px;
+      color: #9c9c9c;
+    }
+    .goods-kind-info {
+      width: 700rpx;
+      /* float: right; */
+      position: absolute;
+      right: 0;
+      top: 8px;
+      color: #9c9c9c;
+    }
+  }
+  .rule {
+    color: #9c9c9c;
+    font-size: 14px;
+    padding-bottom: 10px;
+  }
 }
 </style>

@@ -1,9 +1,8 @@
 <!-- 商品列表组件 -->
 <template>
   <div class="goods">
-
     <div class="goods-list">
-      <div class="goods-info">
+      <div class="goods-info" @click="toGoodsInfo">
         <div class="goods-top">
           <div class="lt">
             <img src="/static/images/index/me-selected.png">
@@ -53,7 +52,12 @@ export default {
 
   computed: {},
 
-  methods: {}
+  methods: {
+    toGoodsInfo() {
+      const url = "../goodsinfo/main"
+      wx.navigateTo({ url })
+    }
+  }
 }
 
 </script>

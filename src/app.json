@@ -7,7 +7,8 @@
     "pages/my/main",
     "pages/publish/main",
     "pages/message/main",
-    "pages/goodslist/main"
+    "pages/goodslist/main",
+    "pages/goodsinfo/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -26,18 +26,15 @@
         </div>
       </van-tab>
     </van-tabs>
-    <!-- <comment></comment> -->
   </div>
 </template>
 
 <script>
-// import comment from '@/components/comment'
 import goodslist from '@/components/goodslist'
 import goodsort from "@/components/goodsort"
 
 export default {
   components: {
-    // comment
     goodslist,
     goodsort
   },

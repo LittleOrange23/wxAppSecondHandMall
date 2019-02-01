@@ -30,19 +30,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "message",
-					"pathName": "pages/goodslist/main",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "message",
-					"pathName": "pages/home/main",
+					"pathName": "pages/publish/main",
 					"query": "",
 					"scene": null
 				}
