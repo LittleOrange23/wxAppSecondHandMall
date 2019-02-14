@@ -31,3 +31,17 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ### 页面颜色
 - 黄色： `#ffd95f`
+
+
+## 数据库设计
+### 数据表
+- 用户信息表
+- 管理员信息表
+- 商品表
+- 商品分类表
+- 商品详情表
+- 商品评论表
+- 订单表
+- 购物车表
+- 收藏表
+

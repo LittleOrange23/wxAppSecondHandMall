@@ -23,14 +23,14 @@
           <span class="icon iconfont icon-location">合肥</span>
         </div>
         <div class="publish-info-right">
-          <span class="icon iconfont icon-hand-like">
-            <span>1</span>
+          <span class="icon iconfont icon-hand-like" @click="addLike">
+            <span>{{ like }}</span>
           </span>
           <span class="icon iconfont icon-cc-message">
-            <span>3</span>
+            <span>{{ comment }}</span>
           </span>
           <span class="icon iconfont icon-eye">
-            <span>3</span>
+            <span>{{ eye }}</span>
           </span>
         </div>
       </div>
@@ -43,6 +43,9 @@
 export default {
   data() {
     return {
+      like: 0,
+      comment: 0,
+      eye: 0,
     };
   },
 
@@ -56,6 +59,9 @@ export default {
     toGoodsInfo() {
       const url = "../goodsinfo/main"
       wx.navigateTo({ url })
+    },
+    addLike() {
+      this.like = this.like + 1
     }
   }
 }

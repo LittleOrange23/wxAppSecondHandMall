@@ -49,10 +49,10 @@
 
       <wux-cell-group title="标价 >">
         <wux-cell hover-class="none">
-          <wux-input label="开个价" defaultValue="1024" extra="￥"/>
+          <wux-input type="number" label="开个价" defaultValue="1024" extra="￥"/>
         </wux-cell>
         <wux-cell hover-class="none">
-          <wux-input label="原价" defaultValue="1024" extra="￥"/>
+          <wux-input type="number" label="原价" defaultValue="1024" extra="￥"/>
         </wux-cell>
       </wux-cell-group>
       <wux-cell>
@@ -69,7 +69,7 @@
           <wux-input clear label="联系人" placeholder="请输入联系人(选填)"/>
         </wux-cell>
         <wux-cell hover-class="none">
-          <wux-input clear label="联系电话" placeholder="请输入联系电话(选填)"/>
+          <wux-input clear label="联系电话" placeholder="请输入联系电话(选填)" type="number"/>
         </wux-cell>
       </wux-cell-group>
       <wux-cell>
