@@ -1,15 +1,17 @@
 <template>
   <div class="container">
-    <div class="userinfo">
-      <!-- <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>-->
+    <!-- <div class="userinfo">
       <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
       <open-data class="userinfo-nickname" type="userNickName" lang="zh_CN"></open-data>
+    </div>-->
+    <div>
+      <div class="userinfo" v-if="userInfo.nickName">
+        <img class="userinfo-avatar" :src="userInfo.avatarUrl" background-size="cover">
+        <p>{{ userInfo.nickName }}</p>
+      </div>
+      <button v-if="!userInfo.nickName" open-type="getUserInfo" @getuserinfo="authSetUser">授权登录</button>
     </div>
     <button @click="toHome" class="home">去往首页</button>
-
   </div>
 </template>
 
@@ -17,41 +19,48 @@
 import card from '@/components/card'
 
 export default {
-  data () {
+  data() {
     return {
       motto: 'Hello World',
-      userInfo: {}
+      userInfo: {},
     }
   },
   components: {
     card
   },
+  created() {
+    this.getUserInfo()
+  },
   methods: {
-    toHome () {
+    toHome() {
       const url = '../home/main'
       wx.switchTab({ url })
     },
-    getUserInfo () {
+    clickHandle(msg, ev) {
+      // console.log('clickHandle:', msg, ev)
+    },
+    authSetUser(e) {
+      this.userInfo = e.mp.detail.userInfo;
+    },
+    getUserInfo() {
       // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
+      var _this = this;
+      wx.getUserInfo({//当已授权getUserInfo时
+        success(res) {
+          console.log(res);
+          _this.userInfo = res.userInfo
+        },
+        fail(err) {
+          console.log(err);
         }
       })
-    },
-    clickHandle (msg, ev) {
-      // console.log('clickHandle:', msg, ev)
     }
   },
 
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
-  }
+created() {
+  // 调用应用实例的方法获取全局数据
+  this.getUserInfo()
+}
 }
 </script>
 
