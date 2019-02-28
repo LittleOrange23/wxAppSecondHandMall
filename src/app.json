@@ -8,12 +8,19 @@
     "pages/publish/main",
     "pages/message/main",
     "pages/goodslist/main",
-    "pages/goodsinfo/main"
+    "pages/goodsinfo/main",
+    "pages/shopcar/main",
+    "pages/mystar/main",
+    "pages/mypublish/main",
+    "pages/help/main",
+    "pages/soldout/main",
+    "pages/mylove/main",
+    "pages/bought/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ffd95f",
-    "navigationBarTitleText": "好物屋",
+    "navigationBarTitleText": "合院二手商品交易平台",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

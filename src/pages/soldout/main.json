@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "已卖出",
+  "usingComponents": {
+    "van-card": "../../../static/vant/card/index"
+  }
+}

@@ -8,7 +8,7 @@
         <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
       <open-data class="userinfo-nickname" type="userNickName" lang="zh_CN"></open-data>
     </div>
-    <div class="allorder">
+    <!-- <div class="allorder">
 
       <div class="order"><img src="/static/images/my/allorder.png" /><span>全部订单</span></div>
       <div class="order"><img src="/static/images/my/nopay1.png" /><span>未支付</span></div>
@@ -16,17 +16,17 @@
       <div class="order"><img src="/static/images/my/noget.png" /><span>未收货</span></div>
       <div class="order"><img src="/static/images/my/nocomment.png" /><span>未评论</span></div>
 
-    </div>
+    </div> -->
     <div class="content">
       <ul>
-        <li><img src="/static/images/my/like.png" /> <span>我收藏的</span></li>
-        <li><img src="/static/images/my/publish.png" /><span>我发布的</span></li>
-        <li><img src="/static/images/my/Recieve.png" /><span>我买到的</span></li>
-        <li><img src="/static/images/my/Send.png" /><span>我卖出的</span></li>
-        <li><img src="/static/images/my/like1.png" /><span>我赞过的</span></li>
+        <li @click="toMyStar"><img src="/static/images/my/like.png" /> <span>我收藏的</span></li>
+        <li @click="toMyPublish"><img src="/static/images/my/publish.png" /><span>我发布的</span></li>
+        <li @click="toSoldOut"><img src="/static/images/my/Recieve.png" /><span>我卖出的</span></li>
+        <li @click="toBought"><img src="/static/images/my/Send.png" /><span>我买到的</span></li>
+        <li @click="toMyLove"><img src="/static/images/my/like1.png" /><span>我赞过的</span></li>
       </ul>
     </div>
-    <div class="help-feedback">
+    <div class="help-feedback" @click="toHelp">
       <img src="/static/images/my/light.png" alt=""><span>帮助与反馈</span>
     </div>
   </div>
@@ -43,7 +43,32 @@ export default {
 
     }
   },
-
+  methods: {
+    toMyStar() {
+      const url = "../mystar/main"
+      wx.navigateTo({ url })
+    },
+    toMyPublish() {
+      const url = "../mypublish/main"
+      wx.navigateTo({ url })
+    },
+    toHelp() {
+      const url = "../help/main"
+      wx.navigateTo({ url })
+    },
+    toSoldOut() {
+      const url = "../soldout/main"
+      wx.navigateTo({ url })
+    },
+    toBought() {
+      const url = "../bought/main"
+      wx.navigateTo({ url })
+    },
+    toMyLove() {
+      const url = "../mylove/main"
+      wx.navigateTo({ url })
+    }
+  },
   created () {
 
   }

@@ -2,9 +2,9 @@
 <template>
   <div class="comment">
     <div class="cmt-container">
-      <h3>发表评论</h3>
+      <h3>发表留言</h3>
       <hr>
-      <textarea placeholder="请输入要评论的内容（做多吐槽120字）" maxlength="120"></textarea>
+      <textarea placeholder="请输入要留言的内容（做多吐槽120字）" maxlength="120"></textarea>
 
       <button
         class="comment-btn"
@@ -13,7 +13,7 @@
         plain="false"
         disabled="false"
         bindtap="primary"
-      >发表评论</button>
+      >发表留言</button>
 
       <div class="cmt-list">
         <div class="cmt-item">
