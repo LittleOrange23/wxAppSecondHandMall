@@ -20,13 +20,13 @@
       </div>
       <div class="publish-info">
         <div class="publish-info-left">
-          <span class="icon iconfont icon-location">合肥</span>
+          <span class="icon iconfont icon-location">{{ location }}</span>
         </div>
         <div class="publish-info-right">
           <span class="icon iconfont icon-hand-like" @click="addLike">
             <span>{{ like }}</span>
           </span>
-          <span class="icon iconfont icon-cc-message">
+          <span @click="toComment" class="icon iconfont icon-cc-message">
             <span>{{ comment }}</span>
           </span>
           <span class="icon iconfont icon-eye">
@@ -48,7 +48,11 @@ export default {
       eye: 0,
     };
   },
-
+  props: {
+    location: {
+      type: String
+    }
+  },
   components: {
 
   },
@@ -62,6 +66,10 @@ export default {
     },
     addLike() {
       this.like = this.like + 1
+    },
+    toComment() {
+      const url = '../goodsinfo/main'
+      wx.navigateTo({ url })
     }
   }
 }

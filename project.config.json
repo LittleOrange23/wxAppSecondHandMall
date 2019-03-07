@@ -35,7 +35,7 @@
 				{
 					"id": 0,
 					"name": "goodslist",
-					"pathName": "pages/my/main",
+					"pathName": "pages/home/main",
 					"query": "",
 					"scene": null
 				}
