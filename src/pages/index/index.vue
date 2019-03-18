@@ -1,69 +1,113 @@
 <template>
   <div class="container">
-    <!-- <div class="userinfo">
-      <open-data class="userinfo-avatar" type="userAvatarUrl"></open-data>
-      <open-data class="userinfo-nickname" type="userNickName" lang="zh_CN"></open-data>
-    </div>-->
     <div>
       <div class="userinfo" v-if="userInfo.nickName">
         <img class="userinfo-avatar" :src="userInfo.avatarUrl" background-size="cover">
         <p>{{ userInfo.nickName }}</p>
       </div>
-      <button v-if="!userInfo.nickName" open-type="getUserInfo" @getuserinfo="authSetUser">授权登录</button>
+      <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin">获取用户信息</button>
     </div>
     <button @click="toHome" class="home">去往首页</button>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
-
+import card from "@/components/card";
+import { get } from "../../utils";
+import qcloud from "wafer2-client-sdk";
+import config from "../../config";
 export default {
   data() {
     return {
-      motto: 'Hello World',
+      motto: "Hello World",
       userInfo: {},
-    }
+    };
   },
   components: {
     card
   },
-  created() {
-    this.getUserInfo()
-  },
+  created() {},
   methods: {
     toHome() {
-      const url = '../home/main'
-      wx.switchTab({ url })
+      const url = "../home/main";
+      wx.switchTab({ url });
     },
     clickHandle(msg, ev) {
       // console.log('clickHandle:', msg, ev)
     },
-    authSetUser(e) {
-      this.userInfo = e.mp.detail.userInfo;
-    },
-    getUserInfo() {
-      // 调用登录接口
-      var _this = this;
-      wx.getUserInfo({//当已授权getUserInfo时
-        success(res) {
-          console.log(res);
-          _this.userInfo = res.userInfo
-        },
-        fail(err) {
-          console.log(err);
-        }
-      })
-
+    // authSetUser(e) {
+    //   this.userInfo = e.mp.detail.userInfo;
+    // },
+    doLogin() {
+      const session = qcloud.Session.get();
+      // const user = wx.getStorageSync('userinfo')
+      // 设置登录地址
       
+      if (session) {
+        // 第二次登录
+        // 或者本地已经有登录态
+        // 可使用本函数更新登录态
+        qcloud.loginWithCode({
+          loginUrl: config.loginUrl,
+          success: res => {
+            this.userInfo = res;
+            wx.showToast({
+              title: "二次登录成功",
+              icon: "success",
+              duration: 2000
+            });
+            // util.showSuccess("登录成功");
+          },
+          fail: err => {
+            console.error(err);
+            wx.showModal({
+              title: "提示",
+              content: "二次登陆错误",
+              success(err) {
+                if (err.confirm) {
+                  console.log("用户点击确定");
+                } else if (err.cancel) {
+                  console.log("用户点击取消");
+                }
+              }
+            });
+            // util.showModel("登录错误", err.message);
+          }
+        });
+      } else {
+        qcloud.setLoginUrl(config.loginUrl);
+        qcloud.login({
+          success: res => {
+            this.userInfo = res;
+            // wx.setStorageSync('userinfo', res)
+            // this.setData({ userInfo: res, logged: true });
+            wx.showToast({
+              title: "首次登录成功",
+              icon: "success",
+              duration: 2000
+            });
+            // util.showSuccess("登录成功");
+          },
+          fail: err => {
+            console.error(err);
+            wx.showModal({
+              title: "提示",
+              content: "首次登陆错误",
+              success(err) {
+                if (err.confirm) {
+                  console.log("用户点击确定");
+                } else if (err.cancel) {
+                  console.log("用户点击取消");
+                }
+              }
+            });
+            // util.showModel("登录错误", err.message);
+          }
+        });
+      }
     }
-  },
-
-created() {
-  // 调用应用实例的方法获取全局数据
-  this.getUserInfo()
-}
-}
+  }
+};
 </script>
 
 <style>

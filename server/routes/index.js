@@ -34,4 +34,10 @@ router.post('/message', controllers.message.post)
 
 router.get('/demo', controllers.demo) 
 
+// 新增商品
+router.post('/addgoods', controllers.addGoods)
+
+// 查询商品
+router.get('/selectgoods', controllers.selectGoods)
+
 module.exports = router
