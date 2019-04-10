@@ -1,10 +1,10 @@
 {
   "pages": [
+    "pages/my/main",
     "pages/index/main",
     "pages/logs/main",
     "pages/counter/main",
     "pages/home/main",
-    "pages/my/main",
     "pages/publish/main",
     "pages/message/main",
     "pages/goodslist/main",

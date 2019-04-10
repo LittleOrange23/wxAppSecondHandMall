@@ -5,32 +5,30 @@
       <div class="goods-info" @click="toGoodsInfo">
         <div class="goods-top">
           <div class="lt">
-            <img src="/static/images/index/me-selected.png">
+            <img :src="goods.user_info.avatarUrl">
           </div>
           <div class="ct">
-            <div class="nickname">神装小丸子</div>
-            <div class="time">2019-1-28</div>
+            <div class="nickname">{{ goods.user_info.nickName }}</div>
+            <div class="time">{{goods.publishtime}}</div>
           </div>
-          <div class="rt">￥50</div>
+          <div class="rt">￥{{goods.price}}</div>
         </div>
         <div class="goods-bottom">
-          <img src="/static/images/home/life.png">
-          <p>这个一个描述</p>
+          <!-- <img v-for="(picItem, picIndex) in goods.picture" :key="picIndex" :src="picItem.imgurl"> -->
+          <img :src="goodsImage">
+          <p>{{goods.describe}}</p>
         </div>
       </div>
       <div class="publish-info">
         <div class="publish-info-left">
-          <span class="icon iconfont icon-location">{{ location }}</span>
+          <span class="icon iconfont icon-location">{{ locationPublish }}</span>
         </div>
         <div class="publish-info-right">
-          <span class="icon iconfont icon-hand-like" @click="addLike">
-            <span>{{ like }}</span>
-          </span>
           <span @click="toComment" class="icon iconfont icon-cc-message">
             <span>{{ comment }}</span>
           </span>
           <span class="icon iconfont icon-eye">
-            <span>{{ eye }}</span>
+            <span>{{ goods.eye }}</span>
           </span>
         </div>
       </div>
@@ -39,45 +37,43 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
-      like: 0,
       comment: 0,
       eye: 0,
+      avatarUrl: ""
     };
   },
   props: {
-    location: {
+    locationPublish: {
       type: String
+    },
+    goods: {
+      type: Object
     }
   },
-  components: {
-
+  computed: {
+    goodsImage() {
+      return this.goods.picture[0] == undefined
+        ? ""
+        : this.goods.picture[0].imgurl;
+    }
   },
-
-  computed: {},
-
   methods: {
     toGoodsInfo() {
-      const url = "../goodsinfo/main"
-      wx.navigateTo({ url })
-    },
-    addLike() {
-      this.like = this.like + 1
+      wx.navigateTo({
+        url: '../goodsinfo/main?goodsId=' +this.goods.goodsid})
     },
     toComment() {
-      const url = '../goodsinfo/main'
-      wx.navigateTo({ url })
+      const url = "../goodsinfo/main";
+      wx.navigateTo({ url });
     }
   }
-}
-
+};
 </script>
 <style lang='less' scoped>
 .goods {
-
   .goods-list {
     margin: 10px;
     .goods-info {
@@ -112,6 +108,11 @@ export default {
       }
       .goods-bottom {
         border-bottom: 1px solid #eee;
+        img {
+          width: 400rpx;
+          height: 400rpx;
+          text-align: center;
+        }
       }
     }
     .publish-info {
@@ -120,6 +121,10 @@ export default {
       color: #9c9c9c;
       .publish-info-left {
         float: left;
+        width: 300rpx;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .publish-info-right {
         float: right;

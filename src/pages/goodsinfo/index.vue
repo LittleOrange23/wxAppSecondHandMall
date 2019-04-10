@@ -3,11 +3,11 @@
     <div class="goods-main">
       <div class="goods-publisher">
         <div class="avatar">
-          <img src="/static/images/index/me-selected.png">
+          <img :src="userInfo.avatarUrl">
         </div>
         <div class="publisher">
-          <div class="nickname">神装小丸子</div>
-          <div class="time">2019-1-28</div>
+          <div class="nickname">{{userInfo.nickName}}</div>
+          <div class="time">{{goods.publishtime}}</div>
         </div>
         <div class="rt">
           
@@ -18,20 +18,16 @@
         </div>
       </div>
       <div class="goods-content">
-        <div class="price">￥50</div>
+        <div class="price">￥{{goods.price}}</div>
         <div class="goods-pic">
-          <img src="/static/images/home/life.png">
+          <img :src="picture.imgurl">
         </div>
         <div class="goods-describe">
           <p>
-            内容丰富，讲解很透彻
-            基于微信小程序轻快的特点，我们拟定了小程序界面设计指南和建议。 设计指南建立在充分尊重用户知情权与操作权的基础之上。旨在微信生态体系内，建立友好、高效、一致的用户体验，同时最大程度适应和支持不同需求，实现用户与小程序服务方的共赢。
-            友好礼貌
-            为了避免用户在微信中使用小程序服务时，注意力被周围复杂环境干扰，小程序在设计时应该注意减少无关的设计元素对用户目标的干扰，礼貌地向用户展示程序提供的服务，友好地引导用户进行操作。
-            重点突出
-            每个页面都应有明确的重点，以便于用户每进入一个新页面的时候都能快速地理解页面内容。在确定了重点的前提下，应尽量避免页面上出现其它与用户的决策和操作无关的干扰因素。
-            案例示意1
+            {{goods.describe}}
           </p>
+          <hr>
+          <p>备注:{{goods.remark}}</p>
         </div>
       </div>
       <div class="comments">
@@ -52,20 +48,40 @@
 
 <script>
 import comment from "@/components/comment";
+import { getRequest } from '../../utils/request';
 export default {
   components: {
     comment
   },
 
   data() {
-    return {};
+    return {
+      goodsId: '',
+      goods: {},
+      userInfo:{},
+      picture: []
+    };
   },
-
-  created() {},
+  mounted () {
+    this.goodsId = this.$root.$mp.query.goodsId
+    this.getGoodsInfoById()
+  },
   methods: {
     toShopCar() {
       const url = '../shopcar/main'
       wx.navigateTo({ url })
+    },
+    async getGoodsInfoById() {
+      console.log('xxx', this.goodsId);
+      // return false
+      const res = await getRequest('/weapp/goodsinfo', {
+        'goodsId': this.goodsId
+      })
+      this.goods = res.data.list[0]
+      this.userInfo = res.data.list[0].user_info
+      this.picture = res.data.list[0].picture[0]
+      console.log('res', res);
+      console.log('goods', this.goods);
     }
   },
 };

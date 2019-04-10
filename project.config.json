@@ -13,6 +13,8 @@
 	"appid": "wxafd4965089f29223",
 	"projectname": "my-project",
 	"qcloudRoot": "server/",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -36,7 +38,7 @@
 				{
 					"id": 0,
 					"name": "index",
-					"pathName": "pages/index/main",
+					"pathName": "pages/home/main",
 					"query": "",
 					"scene": null
 				}

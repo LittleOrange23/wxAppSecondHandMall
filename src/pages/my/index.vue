@@ -1,12 +1,19 @@
 <template>
   <div class="main">
     <div class="userinfo">
-      <!-- <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>-->
-      <img :src="avatar" alt>
-      <p>{{ nickname }}</p>
+      <div class="user-avatar">
+        <!-- <open-data v-if="!userInfo.avatarUrl" type="userAvatarUrl"></open-data> -->
+        <img v-if="!userInfo.avatarUrl" src="/static/images/home/life.png" alt="">
+        <img v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" alt>
+      </div>
+      <div class="user-nickname">
+        <!-- <open-data type="userNickName"></open-data> -->
+        <p v-if="!userInfo.nickName">匿名用户</p>
+        <p v-if="userInfo.nickName">{{userInfo.nickName}}</p>
+      </div>
+      <div class="user-qita">
+        <button v-show="!getIsLogin" open-type="getUserInfo" lang="zh_CN" @getuserinfo="doLogin">请登录</button>
+      </div>
     </div>
     <div class="allorder">
       <div class="order">
@@ -62,22 +69,42 @@
 </template>
 
 <script>
-import qcloud from "wafer2-client-sdk";
+import qcloud from "wafer2-client-sdk"
+import config from '../../config.js'
+import * as Api from '../../utils/request.js'
+import { mapMutations, mapGetters  } from 'vuex'
 export default {
   components: {},
 
   data() {
     return {
-      avatar: "",
-      nickname: ""
+      isLogin: false,
+      userInfo: {}
     };
   },
   methods: {
-    getUserInfo() {
-      const session = qcloud.Session.get();
-      this.avatar = session.userinfo.avatarUrl;
-      this.nickname = session.userinfo.nickName;
-      console.log("myseesion", session);
+    doLogin() {
+      console.log('config.loginUrl', config.loginUrl)
+      qcloud.setLoginUrl(config.loginUrl)
+      const _this = this
+      qcloud.login({
+        success: function (userinfo) {
+          wx.setStorageSync('userinfo', userinfo)
+          // _this.isLogin = true
+          _this.$store.dispatch('setIsLogin', true)
+          _this.$store.dispatch('setOpenId', userinfo.openId)
+          _this.userInfo = userinfo
+          console.log('LoginSuccess', userinfo)
+          wx.showToast({
+            title: '授权成功',
+            icon: 'success',
+            duration: 2000
+          })
+        },
+        fail: function (err) {
+          console.log('登录失败', err)
+        }
+      })
     },
     toMyStar() {
       const url = "../mystar/main";
@@ -104,29 +131,62 @@ export default {
       wx.navigateTo({ url });
     }
   },
+  computed: {
+    ...mapGetters(['getIsLogin'])
+  },
   created() {
-    this.getUserInfo();
-  }
+    this.userInfo = wx.getStorageSync('userinfo')
+    console.log('me-userinfo', this.userInfo)
+    // 判断用户是否的相关缓存
+    if (wx.getStorageSync('userinfo')) {
+      // 发生过授权
+      this.isLogin = false
+
+      // wx.switchTab({
+      //   url: '/pages/me/main'
+      // })
+    } else {
+       this.$store.dispatch('setIsLogin', false)
+    }
+  },
+  mounted() {
+    console.log('mounted')
+    this.userInfo = wx.getStorageSync('userinfo')
+  },
 };
 </script>
 
 <style lang="less" scope>
 .main {
   position: fixed;
-  height: 100%;
+  // height: 100%;
   background: #eee;
   margin: 0;
   .userinfo {
-    width: 750rpx;
+    height: 220rpx;
+    width: 100%;
+    background-color: #ffd95f;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    background: #ffd95f;
-    height: 260rpx;
-    img {
-      width: 200rpx;
-      height: 200rpx;
+    justify-content: space-around;
+    .user-avatar {
+      width: 150rpx;
+      height: 150rpx;
       border-radius: 50%;
+      background: #000;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .user-nickname {
+      background: rgb(126, 113, 113);
+    }
+    .user-qita {
+      min-width: 240rpx;
+      height: 100%;
+      // background-color: aqua;
     }
   }
   .allorder {
