@@ -15,7 +15,11 @@
     "pages/help/main",
     "pages/soldout/main",
     "pages/mylove/main",
-    "pages/bought/main"
+    "pages/bought/main",
+    "pages/address/main",
+    "pages/addaddress/main",
+    "pages/order/main",
+    "pages/search/main"
   ],
   "permission": {
     "scope.userLocation": {

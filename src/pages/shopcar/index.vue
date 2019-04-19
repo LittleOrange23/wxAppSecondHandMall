@@ -2,34 +2,18 @@
   <div>
     <div>
       <ul>
-        <li>
+        <li v-for="goodsItem in goodList" :key="goodsItem.goodsid">
           <van-card
-            num="2"
-            tag="标签"
-            price="10.00"
-            desc="描述信息"
-            title="商品标题"
-            thumb="/static/images/home/book.png"
+            :num="goodsItem.num"
+            :price="goodsItem.price"
+            :desc="goodsItem.describe"
+            :title="goodsItem.title"
+            :thumb="goodsItem.picture[0].imgurl"
           >
             <view slot="footer">
-              <van-button size="mini">+</van-button>
-              <van-button size="mini">-</van-button>
-              <span>删除</span>
-            </view>
-          </van-card>
-        </li>
-        <li>
-          <van-card
-            num="6"
-            price="10.00"
-            desc="描述信息"
-            title="商品标题"
-            thumb="/static/images/home/book.png"
-          >
-            <view slot="footer">
-              <van-button size="mini">+</van-button>
-              <van-button size="mini">-</van-button>
-              <span>删除</span>
+              <van-button size="mini" @click="addNum(goodsItem)">+</van-button>
+              <van-button size="mini" @click="reduceNum(goodsItem)">-</van-button>
+              <span @click="deleteGoods(goodsItem)">删除</span>
             </view>
           </van-card>
         </li>
@@ -37,23 +21,25 @@
     </div>
     <div>
       <van-submit-bar
-        price="30.5"
+        :price="countPrice"
         button-text="提交订单"
-        bind:submit="onClickButton"
-        tip="true"
+        @submit="onClickButton"
+        :tip="true"
       >
         <van-tag type="primary">
           <van-checkbox :value="checked" @change="onChange">全选</van-checkbox>
         </van-tag>
-        <view slot="tip">您的收货地址不支持同校送,
-          <text>修改地址</text>
-        </view>
       </van-submit-bar>
     </div>
+
+    <wux-dialog id="wux-dialog"/>
   </div>
 </template>
 
 <script>
+import * as Util from "../../utils/index.js";
+import * as Api from "../../utils/request.js";
+import { $wuxDialog } from "../../../static/wux/index.js";
 export default {
   components: {},
 
@@ -61,15 +47,114 @@ export default {
     return {
       imageURL: "/static/images/home/book.png",
       checked: true,
+      num: "",
+      price: "",
+      desc: "",
+      title: "",
+      goodList: [],
+      editTemp: 0
     };
   },
-  methods: {
-    onChange(event) {
-      this.checked = event.mp.detail
-      console.log(event.mp.detail)
-  }
+  computed: {
+    countPrice() {
+      // 计算
+      let count = 0;
+      this.goodList.map(item => {
+        count = count + item.num * item.price;
+      });
+      return count * 100;
+    }
   },
-  created() {}
+  methods: {
+    async getGoodsList() {
+      const openId = wx.getStorageSync("userinfo").openId;
+      const res = await Api.getRequest("/weapp/selectshopcar", {
+        openId: openId
+      });
+      // console.log("购物车列表", res);
+      this.goodList = res.data.list;
+      // console.log("goodList", this.goodList);
+    },
+    async setCountPrice() {
+      // 计算
+      let count = 0;
+      this.goodList.map(item => {
+        count = count + item.num * item.price;
+      });
+      this.countPrice = count * 100;
+    },
+    onChange(event) {
+      this.checked = event.mp.detail;
+      console.log(event.mp.detail);
+    },
+    async addNum(goodsItem) {
+      const res = await Api.postRequest("/weapp/updateshopcar", {
+        shopCarId: goodsItem.shopcarid,
+        num: goodsItem.num + 1
+      });
+      if (res.code == 0) {
+        goodsItem.num++;
+      } else {
+        wx.showToast({
+          title: "未知错误，失败"
+        });
+      }
+      // this.setCountPrice()
+    },
+    async reduceNum(goodsItem) {
+      // console.log('jsdfh', goodsItem);
+      if (goodsItem.num != 1) {
+        const res = await Api.postRequest("/weapp/updateshopcar", {
+          shopCarId: goodsItem.shopcarid,
+          num: goodsItem.num - 1
+        });
+        if (res.code == 0) {
+          goodsItem.num--;
+        } else {
+          wx.showToast({
+            title: "未知错误，失败"
+          });
+        }
+      } else {
+        const openId = wx.getStorageSync("userinfo").openId;
+        $wuxDialog().confirm({
+          resetOnClose: true,
+          closable: true,
+          title: "是否继续",
+          content: "继续减少将删除这个商品",
+          onConfirm: async e => {
+            // 调接口 删除这这个商品
+            const res = await Api.postRequest("/weapp/updateshopcar", {
+              shopCarId: goodsItem.shopcarid,
+              num: goodsItem.num - 1
+            });
+            // console.log("删除", res);
+
+            this.getGoodsList();
+          },
+          onCancel(e) {
+            console.log("取消删除");
+          }
+        });
+      }
+    },
+    async deleteGoods(goodsItem) {
+      const res = await Api.postRequest("/weapp/deleteshopcar", {
+        shopCarId: goodsItem.shopcarid
+      });
+      // console.log('delete', res);
+      this.getGoodsList()
+    },
+    onClickButton() {
+      // 结算生成订单
+      wx.navigateTo({
+        url: '/pages/order/main'
+      })
+    }
+  },
+  mounted() {
+    this.getGoodsList();
+  }
 };
 </script>
 

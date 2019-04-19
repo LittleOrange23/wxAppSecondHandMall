@@ -4,6 +4,8 @@
     "van-card": "../../../static/vant/card/index",
     "van-button": "../../../static/vant/button/index",
     "van-submit-bar": "../../../static/vant/submit-bar/index",
-    "van-checkbox": "../../../static/vant/checkbox/index"
+    "van-checkbox": "../../../static/vant/checkbox/index",
+    "wux-dialog": "../../../static/wux/dialog/index",
+    "wux-input-number": "../../../static/wux/input-number/index"
   }
 }

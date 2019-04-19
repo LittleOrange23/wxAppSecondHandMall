@@ -10,10 +10,13 @@
           <div class="time">{{goods.publishtime}}</div>
         </div>
         <div class="rt">
-          
-          <div class="star">
-            <img src="/static/images/goodsinfo/star.png" alt="">
+          <div v-if="isStar==0" class="star" @click="addToStar(1)">
+            <img src="/static/images/goodsinfo/star.png" alt>
             <p>收藏</p>
+          </div>
+          <div v-if="isStar!=0" class="star" @click="addToStar(0)">
+            <img src="/static/images/goodsinfo/pre-star.png" alt>
+            <p>已收藏</p>
           </div>
         </div>
       </div>
@@ -23,23 +26,41 @@
           <img :src="picture.imgurl">
         </div>
         <div class="goods-describe">
-          <p>
-            {{goods.describe}}
-          </p>
+          <p>{{goods.describe}}</p>
           <hr>
           <p>备注:{{goods.remark}}</p>
         </div>
       </div>
       <div class="comments">
-        <comment></comment>
+        <h3>发表留言</h3>
+        <hr>
+        <van-cell-group>
+          <van-field
+            type="textarea"
+            placeholder="请输入要留言的内容（最多吐槽120字）"
+            maxlength="120"
+            autosize="true"
+            @change="onChange"
+            input-class="commentArea"
+          />
+        </van-cell-group>
+
+        <van-button type="default" @click="addCooments" custom-class="comment-btn">发表评论</van-button>
+        <comment
+          v-for="commentItem in allComments"
+          :key="commentItem.commentsid"
+          :allComments="commentItem"
+        ></comment>
+
+        <!-- <button type="default" size="default" plain="true" disabled="false" bindtap="default">加载更多</button> -->
       </div>
     </div>
 
     <div class="bottom">
       <van-goods-action>
         <van-goods-action-icon icon="chat-o" text="客服"/>
-        <van-goods-action-icon icon="cart-o" text="购物车" info="5" @click="toShopCar"/>
-        <van-goods-action-button text="加入购物车" type="warning"/>
+        <van-goods-action-icon icon="cart-o" text="购物车" @click="toShopCar"/>
+        <van-goods-action-button text="加入购物车" type="warning" @click="addToShopCar"/>
         <van-goods-action-button text="立即购买"/>
       </van-goods-action>
     </div>
@@ -48,7 +69,8 @@
 
 <script>
 import comment from "@/components/comment";
-import { getRequest } from '../../utils/request';
+import * as Util from "../../utils/index.js";
+import * as Api from "../../utils/request.js";
 export default {
   components: {
     comment
@@ -56,34 +78,132 @@ export default {
 
   data() {
     return {
-      goodsId: '',
+      goodsId: "",
       goods: {},
-      userInfo:{},
-      picture: []
+      userInfo: {},
+      picture: [],
+      allComments: [],
+      commentUser: {},
+      comment: "",
+      time: "",
+      isStar: 0,
+      openId: ""
     };
   },
-  mounted () {
-    this.goodsId = this.$root.$mp.query.goodsId
-    this.getGoodsInfoById()
+  mounted() {
+    this.goodsId = this.$root.$mp.query.goodsId;
+    this.getGoodsInfoById();
+    this.getCommentsByGoodsId();
   },
   methods: {
     toShopCar() {
-      const url = '../shopcar/main'
-      wx.navigateTo({ url })
+      const url = "../shopcar/main";
+      wx.navigateTo({ url });
     },
     async getGoodsInfoById() {
-      console.log('xxx', this.goodsId);
+      this.openId = wx.getStorageSync("userinfo").openId;
+      console.log("xxx", this.goodsId);
+      console.log("身份证", this.openId);
       // return false
-      const res = await getRequest('/weapp/goodsinfo', {
-        'goodsId': this.goodsId
-      })
-      this.goods = res.data.list[0]
-      this.userInfo = res.data.list[0].user_info
-      this.picture = res.data.list[0].picture[0]
-      console.log('res', res);
-      console.log('goods', this.goods);
+      const res = await Api.getRequest("/weapp/goodsinfo", {
+        goodsId: this.goodsId,
+        openId: this.openId
+      });
+      this.goods = res.data.list[0];
+      this.isStar = res.data.isStar;
+      this.userInfo = res.data.list[0].user_info;
+      this.picture = res.data.list[0].picture[0];
+      console.log("res", res);
+      console.log("goods", this.goods);
+    },
+    async getCommentsByGoodsId() {
+      wx.showNavigationBarLoading();
+      console.log("评论", this.goodsId);
+      const comment = await Api.getRequest("/weapp/selectcomments", {
+        goodsId: this.goodsId
+      });
+      this.allComments = comment.data.list;
+      console.log(this.allComments);
+      // this.commentUser = comment.data.list.user_info
+      // this.picture = res.data.list[0].picture[0]
+      // console.log("comment", this.commentUser);
+      // console.log('goods', this.goods);
+      wx.stopPullDownRefresh();
+      wx.hideNavigationBarLoading();
+    },
+    async addCooments() {
+      const openId = wx.getStorageSync("userinfo").openId;
+      this.time = Util.formatTime(new Date());
+      // console.log(openId);
+      // console.log("comment", this.comment);
+      if (this.comment == "") {
+        wx.showToast({
+          title: "留言内容不能为空",
+          duration: 2000
+        });
+      } else {
+        // console.log(openId, this.comment, this.goodsId);
+        const res = await Api.postRequest("/weapp/addcomments", {
+          openId: openId,
+          goodsId: this.goodsId,
+          comment: this.comment,
+          time: this.time
+        });
+        if (res.code == 0) {
+          wx.showToast({
+            title: "添加成功",
+            icon: "success",
+            duration: 2000
+          });
+          const res = await Api.getRequest("/weapp/selectcomments", {
+            goodsId: this.goodsId
+          });
+          this.allComments = res.data.list;
+          console.log(this.allComments);
+        }
+      }
+    },
+    onChange(event) {
+      console.log(event.mp.detail);
+      this.comment = event.mp.detail;
+    },
+    onPullDownRefresh() {
+      this.getCommentsByGoodsId();
+    },
+    async addToShopCar() {
+      console.log("加入购物车");
+      var openId = wx.getStorageSync("userinfo").openId;
+      const res = await Api.postRequest("/weapp/addshopcar", {
+        openId: openId,
+        goodsId: this.goodsId,
+        price: this.goods.price,
+        num: 1
+      });
+      console.log("hhhh", res);
+      if (res.code == 0) {
+        wx.showToast({
+          title: "添加成功",
+          icon: "success",
+          duration: 2000
+        });
+      }
+    },
+    async addToStar(flag) {
+      const res = await Api.postRequest("/weapp/addstar", {
+        isStar: flag,
+        openId: wx.getStorageSync("userinfo").openId,
+        goodsId: this.goodsId
+      });
+      this.isStar = flag;
+      // if (res.code.message == "SUCCESS") {
+      //   this.book.isCollect = iscollect;
+      // } else {
+      //   wx.showToast({
+      //     title: "失败"
+      //   });
+      // }
     }
-  },
+  }
 };
 </script>
 
@@ -134,6 +254,27 @@ export default {
       padding: 10px;
       .price {
         color: #ff6a6a;
+      }
+    }
+    .comments {
+      h3 {
+        font-size: 18px;
+      }
+      textarea {
+        font-size: 14px;
+        margin: 0;
+        height: 90px !important;
+      }
+      .commentArea {
+        height: 90px !important;
+      }
+      .comment-btn {
+        margin: 10px;
+        width: 700rpx;
+        text-align: center;
+        background: #ffd95f !important;
+        color: #fff !important;
+        border-radius: 10px;
       }
     }
   }

@@ -3,6 +3,9 @@
   "usingComponents": {
     "van-goods-action": "../../../static/vant/goods-action/index",
     "van-goods-action-icon": "../../../static/vant/goods-action-icon/index",
-    "van-goods-action-button": "../../../static/vant/goods-action-button/index"
-  }
+    "van-goods-action-button": "../../../static/vant/goods-action-button/index",
+    "van-field": "/static/vant/field/index",
+    "van-button": "/static/vant/button/index"
+  },
+  "enablePullDownRefresh": true
 }

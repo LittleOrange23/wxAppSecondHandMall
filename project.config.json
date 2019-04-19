@@ -38,7 +38,7 @@
 				{
 					"id": 0,
 					"name": "index",
-					"pathName": "pages/home/main",
+					"pathName": "pages/my/main",
 					"query": "",
 					"scene": null
 				}

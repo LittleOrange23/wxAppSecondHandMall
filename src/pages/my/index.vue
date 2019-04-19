@@ -21,21 +21,14 @@
         <span>全部订单</span>
       </div>
       <div class="order">
-        <img src="/static/images/my/nopay1.png">
-        <span>未支付</span>
-      </div>
-      <div class="order">
         <img src="/static/images/my/nosend.png">
-        <span>未发货</span>
+        <span>待发货</span>
       </div>
       <div class="order">
         <img src="/static/images/my/noget.png">
-        <span>未收货</span>
+        <span>待收货</span>
       </div>
-      <div class="order">
-        <img src="/static/images/my/nocomment.png">
-        <span>未评论</span>
-      </div>
+      
     </div>
     <div class="content">
       <ul>
@@ -55,9 +48,9 @@
           <img src="/static/images/my/Send.png">
           <span>我买到的</span>
         </li>
-        <li @click="toMyLove">
-          <img src="/static/images/my/like1.png">
-          <span>我赞过的</span>
+        <li @click="toAddress">
+          <img src="/static/images/my/address.png">
+          <span>地址管理</span>
         </li>
       </ul>
     </div>
@@ -126,9 +119,9 @@ export default {
       const url = "../bought/main";
       wx.navigateTo({ url });
     },
-    toMyLove() {
-      const url = "../mylove/main";
-      wx.navigateTo({ url });
+    toAddress() {
+      const url = "../address/main"
+      wx.navigateTo({ url })
     }
   },
   computed: {
@@ -198,7 +191,7 @@ export default {
       float: left;
       width: 60px;
       height: 80px;
-      padding-left: 14px;
+      padding-left: 50px;
       margin-top: 5px;
       font-size: 14px;
       color: #9c9c9c;

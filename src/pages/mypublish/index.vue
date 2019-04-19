@@ -1,54 +1,62 @@
 <template>
   <div>
-    <!-- <div>
+    <div>
       <ul>
-        <li>
-          <van-card
-            price="10.00"
-            desc="描述信息"
-            title="商品标题"
-            thumb="/static/images/home/book.png"
-          >
+        <li v-for="goodsItem in goods" :key="goodsItem.goodsid">
+          <van-card :price="goodsItem.price" :desc="goodsItem.describe" :title="goodsItem.title" :thumb="goodsItem.picture[0].imgurl">
             <view slot="footer">
-              <span>下架</span>
-            </view>
-          </van-card>
-        </li>
-        <li>
-          <van-card 
-            price="10.00"
-            desc="描述信息"
-            title="商品标题"
-            thumb="/static/images/home/book.png"
-          >
-            <view slot="footer">
-              <span>下架</span>
+              <span @click="toUnder(goodsItem)">{{goodsItem.isput == 0 ? '已下架' : '下架'}}</span>
             </view>
           </van-card>
         </li>
       </ul>
-    </div> -->
-    <goods></goods>
+    </div>
   </div>
 </template>
 
 <script>
-import goods from '@/components/goods'
+import * as Api from "../../utils/request.js";
 export default {
   components: {
-    goods
-  },
-
-  data () {
-    return {
-     
-    }
-  },
-
-  created () {
     
+  },
+
+  data() {
+    return {
+      goods: [],
+      // isPut: ''
+    };
+  },
+
+  mounted() {
+    this.getMyPublish();
+  },
+  methods: {
+    async getMyPublish() {
+      const openId = wx.getStorageSync("userinfo").openId;
+      const res = await Api.getRequest('/weapp/mypublish', {
+        openId: openId
+      })
+      this.goods = res.data.list
+      console.log('已发布', res);
+    },
+    // 下架商品
+    async toUnder(goodsItem) {
+      let that = this
+      let openId = wx.getStorageSync("userinfo").openId;
+      if (goodsItem.isput == 1) {
+        const res = await Api.postRequest('/weapp/undergoods', {
+          isPut: 0,
+          openId: openId,
+          goodsId: goodsItem.goodsid
+        })
+        if (res.code == 0) {
+          this.getMyPublish()
+        }
+      }
+    }
   }
-}
+};
 </script>
 
 <style>

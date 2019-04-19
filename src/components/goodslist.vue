@@ -21,7 +21,7 @@
       </div>
       <div class="publish-info">
         <div class="publish-info-left">
-          <span class="icon iconfont icon-location">{{ locationPublish }}</span>
+          <span class="icon iconfont icon-location">{{ goods.location }}</span>
         </div>
         <div class="publish-info-right">
           <span @click="toComment" class="icon iconfont icon-cc-message">

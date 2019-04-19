@@ -2,59 +2,60 @@
 <template>
   <div class="comment">
     <div class="cmt-container">
-      <h3>发表留言</h3>
-      <hr>
-      <textarea placeholder="请输入要留言的内容（做多吐槽120字）" maxlength="120"></textarea>
-
-      <button
-        class="comment-btn"
-        type="primary"
-        size="default"
-        plain="false"
-        disabled="false"
-        bindtap="primary"
-      >发表留言</button>
-
       <div class="cmt-list">
         <div class="cmt-item">
-          <div class="cmt-title">第1楼&nbsp;&nbsp;用户：小丸子&nbsp;&nbsp;发表时间：2019-1-31</div>
-          <div class="cmt-body">哈哈哈哈，真不错！</div>
+          <div class="cmt-title">用户：{{userinfo.nickName}}&nbsp;&nbsp;发表时间：{{allComments.time}}</div>
+          <div class="cmt-body">{{ commentBody }}</div>
         </div>
       </div>
-
-      <button type="default" size="default" plain="true" disabled="false" bindtap="default">加载更多</button>
     </div>
   </div>
 </template>
 
 <script>
+import * as Api from "../utils/request.js";
+import * as Util from "../utils/index.js";
 export default {
+  props: ["allComments"],
   data() {
     return {
+      // allComments: []
+      userInfo: []
     };
   },
-
-  components: {},
-
-  computed: {},
-
+  mounted() {},
+  computed: {
+    userinfo() {
+      return this.allComments.user_info || {};
+    },
+    commentBody() {
+      return this.allComments.comment
+    }
+  },
   methods: {}
-}
-
+};
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .cmt-container {
   h3 {
     font-size: 18px;
   }
   textarea {
     font-size: 14px;
-    height: 85px;
     margin: 0;
+    height: 90px !important;
   }
+  .commentArea {
+    height: 90px !important;
+  }
+
   .comment-btn {
+    margin: 10px;
+    width: 700rpx;
+    text-align: center;
     background: #ffd95f !important;
     color: #fff !important;
+    border-radius: 10px;
   }
   .cmt-list {
     margin: 5px 0;

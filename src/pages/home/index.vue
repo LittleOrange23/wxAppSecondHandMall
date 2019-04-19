@@ -2,11 +2,14 @@
 <template>
   <div class="main">
     <!-- 搜索框 -->
-    <div class="top">
-      <span class="icon iconfont icon-location curlocation">
-        <span class="address">{{locationNow}}</span>
-      </span>
-      <van-search class="search" placeholder="请输入搜索关键词"/>
+    <div class="search">
+      <div>
+        <span class="icon iconfont icon-location curlocation">{{locationNow}}</span>
+      </div>
+      <div @click="toSearch">
+        <input type="text" placeholder="搜索商品">
+        <span class="icon"></span>
+      </div>
     </div>
 
     <scroll-view scroll-y style="height: 93%;" scroll-top="100" class="content">
@@ -20,7 +23,7 @@
       >
         <block v-for="item in imgUrls" :key="item">
           <swiper-item>
-            <image :src="item.url" class="slide-image" width="355" height="150"/>
+            <image :src="item.imgUrl" class="slide-image" width="355" height="150"/>
           </swiper-item>
         </block>
       </swiper>
@@ -75,11 +78,7 @@ export default {
     return {
       msg: "这是一个用户组件",
       value: "search",
-      imgUrls: [
-        { url: "/static/images/home/swiper1.jpg" },
-        { url: "/static/images/home/swiper2.jpg" },
-        { url: "/static/images/home/swiper3.jpg" }
-      ],
+      imgUrls: [],
       indicatorDots: true,
       autoplay: true,
       interval: 5000,
@@ -94,6 +93,9 @@ export default {
   components: {
     goodslist
     // goodsort
+  },
+  onShow() {
+    this.getAds();
   },
   created() {
     this.getGeo();
@@ -129,7 +131,7 @@ export default {
               geo.longitude
             }&output=json&pois=1&ak=UoZlCMqkPaaxVeIVA30e35dVTmyGB26j`,
             success: res => {
-              console.log(res.data.result);
+              // console.log(res.data.result);
               if (res.data.status === 0) {
                 this.locationNow = res.data.result.formatted_address;
               } else {
@@ -165,6 +167,19 @@ export default {
 
       wx.stopPullDownRefresh();
       wx.hideNavigationBarLoading();
+    },
+    async getAds() {
+      const res = await Api.getRequest("/weapp/selectads");
+      console.log("图片", res);
+      if (res.code == 0) {
+        this.imgUrls = res.data.list;
+        console.log("this.imgUrls", this.imgUrls);
+      }
+    },
+    toSearch() {
+      wx.navigateTo({
+        url: "/pages/search/main"
+      });
     }
   },
   onPullDownRefresh() {
@@ -178,18 +193,66 @@ export default {
   height: 100%;
   background: #eee;
   margin: 0;
-  .top {
-    .curlocation {
-      float: left;
-      line-height: 85rpx;
-      width: 150rpx;
+  // .top {
+  //   .curlocation {
+  //     float: left;
+  //     line-height: 85rpx;
+  //     width: 150rpx;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //     white-space: nowrap;
+  //   }
+  //   .search {
+  //     float: right;
+  //     width: 600rpx;
+  //   }
+  // }
+  .search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 25rpx 0 10rpx;
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    background: #fff;
+
+    div:nth-child(1) {
+      width: 115rpx;
+      text-align: center;
       overflow: hidden;
-      text-overflow: ellipsis;
       white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 20rpx;
+      padding-right: 15rpx;
     }
-    .search {
-      float: right;
-      width: 600rpx;
+
+    div:nth-child(2) {
+      flex: 1;
+      position: relative;
+
+      input {
+        width: 100%;
+        height: 56rpx;
+        border-radius: 8rpx;
+        background: #ededed;
+        box-sizing: border-box;
+        padding-left: 40rpx;
+      }
+
+      .icon {
+        position: absolute;
+        top: 15rpx;
+        left: 10rpx;
+        background: url("http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/search2-2fb94833aa.png")
+          center no-repeat;
+        background-size: 100%;
+        width: 28rpx;
+        height: 28rpx;
+        margin-right: 10rpx;
+      }
     }
   }
   .content {
