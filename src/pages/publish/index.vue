@@ -50,10 +50,11 @@
         </wux-cell>
       </wux-cell-group>
       <wux-cell>
+        <!-- url="http://127.0.0.1:5757/weapp/upload" -->
         <wux-upload
           listType="picture-card"
           max="4"
-          url="http://127.0.0.1:5757/weapp/upload"
+          url="https://1rf1cjrx.qcloud.la/weapp/upload"
           @success="onSuccess"
           @remove="onDelete"
         >

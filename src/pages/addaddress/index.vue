@@ -33,7 +33,7 @@ export default {
     this.openId = wx.getStorageSync('userinfo').openId;
     if (this.$root.$mp.query.res) {
       this.res = JSON.parse(decodeURIComponent(this.$root.$mp.query.res));
-      console.log(this.res);
+      console.log('777',this.res);
       this.userName = this.res.userName;
       this.telNumber = this.res.telNumber;
       this.address = `${this.res.provinceName} ${this.res.cityName} ${

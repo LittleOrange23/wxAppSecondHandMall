@@ -91,7 +91,7 @@ export default {
       if (this.goodsKind == "生活用品") {
         this.active = 2;
       }
-      if (this.goodsKind == "其他更多") {
+      if (this.goodsKind == "其他") {
         this.active = 3;
       }
       // console.log("res", res);
@@ -117,7 +117,7 @@ export default {
       });
       this.life = res2.data.list;
       const res3 = await Api.getRequest("/weapp/goodskind", {
-        kindId: "其他更多"
+        kindId: "其他"
       });
       this.other = res3.data.list;
     }

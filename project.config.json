@@ -12,7 +12,7 @@
 	"compileType": "miniprogram",
 	"appid": "wxafd4965089f29223",
 	"projectname": "my-project",
-	"qcloudRoot": "server/",
+	"qcloudRoot": "wxAppServer/",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {

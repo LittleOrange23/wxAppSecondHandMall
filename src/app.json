@@ -19,7 +19,8 @@
     "pages/address/main",
     "pages/addaddress/main",
     "pages/order/main",
-    "pages/search/main"
+    "pages/search/main",
+    "pages/myorder/main"
   ],
   "permission": {
     "scope.userLocation": {
@@ -44,16 +45,16 @@
         "text": "首页"
       },
       {
-        "selectedIconPath": "./static/images/index/comment-selected.png",
-        "iconPath": "./static/images/index/comment.png",
-        "pagePath": "pages/message/main",
-        "text": "消息"
-      },
-      {
         "selectedIconPath": "./static/images/index/publish.png",
         "iconPath": "./static/images/index/publish.png",
         "pagePath": "pages/publish/main",
         "text": "发布"
+      },
+      {
+        "selectedIconPath": "./static/images/index/cart-selected.png",
+        "iconPath": "./static/images/index/cart.png",
+        "pagePath": "pages/shopcar/main",
+        "text": "购物车"
       },
       {
         "selectedIconPath": "./static/images/index/me-selected.png",

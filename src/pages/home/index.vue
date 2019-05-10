@@ -43,7 +43,7 @@
             <img src="/static/images/home/life.png"/>
             <div class="list-title">生活用品</div>
           </li>
-          <li @click="toGoodList('其他更多')">
+          <li @click="toGoodList('其他')">
             <img src="/static/images/home/other.png"/>
             <div class="list-title">其他更多</div>
           </li>

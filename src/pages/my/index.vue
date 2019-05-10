@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="allorder">
-      <div class="order">
+      <div class="order" @click="toAllOrder">
         <img src="/static/images/my/allorder.png">
         <span>全部订单</span>
       </div>
@@ -121,6 +121,10 @@ export default {
     },
     toAddress() {
       const url = "../address/main"
+      wx.navigateTo({ url })
+    },
+    toAllOrder() {
+      const url = "../myorder/main"
       wx.navigateTo({ url })
     }
   },

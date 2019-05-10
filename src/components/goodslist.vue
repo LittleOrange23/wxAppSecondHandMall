@@ -109,6 +109,10 @@ export default {
       .goods-bottom {
         border-bottom: 1px solid #eee;
         img {
+          // max-width: 400rpx;
+          // max-height: 400rpx;
+          // height: auto;
+          // width: auto;
           width: 400rpx;
           height: 400rpx;
           text-align: center;
