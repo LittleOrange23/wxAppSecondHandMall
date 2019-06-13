@@ -12,7 +12,7 @@
         </div>
         <div class="payee-wrap">
           <span>收款方</span>
-          <span>思多多</span>
+          <span>合院二手</span>
         </div>
         <div class="save-wrap">
           <div class="save-btn" @click="openPlain">立即支付</div>
@@ -36,10 +36,10 @@
     </div>
     <div class="order-info-box">
       <van-cell-group>
-        <van-cell title="单元格" value="内容"/>
-        <van-cell title="单元格" value="内容"/>
-        <van-cell title="单元格" value="内容"/>
-        <van-cell title="单元格" value="内容"/>
+        <van-cell title="配送方式" value="普通配送"/>
+        <van-cell title="运费险" value="卖家送"/>
+        <van-cell title="开具发票" value="本次不开具发票"/>
+        <van-cell title="订单备注" value="好"/>
       </van-cell-group>
     </div>
     <van-submit-bar
@@ -70,7 +70,8 @@ export default {
       openid: "",
       visible: false,
       addressId: "",
-      address: {}
+      address: {},
+      orderId: ""
     };
   },
   created() {
@@ -119,9 +120,6 @@ export default {
     hideLoading() {
       this.$wuxLoading.hide();
     },
-    test() {
-      this.countPrice = 1000;
-    },
     onClickButton() {
       // this.showLoading()
       // 生成订单 付款
@@ -152,7 +150,8 @@ export default {
         addressId: this.address.addressId
       });
       // 失败
-      if (!res.data.message === "SUCCESS") {
+      console.log('生成订单', res);
+      if (res.data.message == "fail") {
         this.hideLoading();
         wx.showToast({
           title: "失败，发生未知错误",
@@ -161,6 +160,8 @@ export default {
         });
       } else {
         // 成功
+        // this.countPrice = (res.data.count).toFixed(2)
+        this.orderId = res.data.order[0]
         this.hideLoading();
         this.toPay();
       }
@@ -184,17 +185,43 @@ export default {
       }, 500);
     },
     openPlain() {
-      const fn = (title, status) => {
+      const fn = async (title, status) => {
         wx.hideLoading();
         wx.showToast({
           title,
           duration: 2000
         });
-        setTimeout(() => {
-          wx.redirectTo({
-            url: "/pages/myorder/main"
+
+        if (status) {
+          const res = await postRequest("/weapp/order/editStatus", {
+            order_id: this.orderId,
+            pay_status: "1", // 已经支付
+            trade_status: "1" // 等待发货
           });
-        }, 1000);
+          if (res.data.message == "SUCCESS") {
+            setTimeout(() => {
+              wx.redirectTo({
+                url: "/pages/myorder/main"
+              });
+            }, 1000);
+          }
+          else {
+            wx.showToast({
+              title: '发生未知错误联系管理员',
+              duration: 2000,
+            })
+            wx.redirectTo({
+              url: '/pages/help/main'
+            })
+          }
+        }
+        else {
+          setTimeout(() => {
+            wx.redirectTo({
+              url: '/pages/myorder/main'
+            })
+          }, 1000);
+        }
       };
 
       $wuxKeyBoard().show({
@@ -213,13 +240,21 @@ export default {
           });
 
           return new Promise((resolve, reject) => {
-            setTimeout(
-              () =>
-                Math.ceil(Math.random() * 10) >= 6
-                  ? resolve(fn("密码正确", true))
-                  : reject(fn("密码错误", false)),
-              2000
-            );
+            // setTimeout(
+            //   () =>
+            //     Math.ceil(Math.random() * 10) >= 6
+            //       ? resolve(fn("密码正确", true))
+            //       : reject(fn("密码错误", false)),
+            //   2000
+            // );
+            setTimeout(() => {
+              this.visible = false
+              if (`${value}` == '123456') {
+                resolve(fn('密码正确', true))
+              } else {
+                reject(fn('密码错误', false))
+              }
+            }, 2000);
           });
         }
       });

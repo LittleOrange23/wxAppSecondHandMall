@@ -113,6 +113,7 @@ export default {
         openid: wx.getStorageSync("userinfo").openId,
         trade_status
       });
+      console.log('订单列表', res);
       console.log("xxxxxx", this.orderlist);
       this.orderlist = res.data.list.map(v => {
         v.goods = v.goods.map(item => {

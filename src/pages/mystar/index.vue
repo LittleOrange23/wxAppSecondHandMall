@@ -10,7 +10,8 @@
             :thumb="goodsItem.picture[0].imgurl"
           >
             <view slot="footer">
-              <span @click="deleteStar(goodsItem)">删除</span>
+              <p @click="deleteStar(goodsItem)">删除</p>
+              <p class="expired" v-show="goodsItem.isput!=1">已失效</p>
             </view>
           </van-card>
         </li>
@@ -57,13 +58,7 @@ export default {
 </script>
 
 <style>
-.log-list {
-  display: flex;
-  flex-direction: column;
-  padding: 40rpx;
-}
-
-.log-item {
-  margin: 10rpx;
+.expired {
+  color: #f42424;
 }
 </style>

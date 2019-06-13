@@ -170,7 +170,7 @@ export default {
       width: 150rpx;
       height: 150rpx;
       border-radius: 50%;
-      background: #000;
+      // background: #000;
       img {
         width: 100%;
         height: 100%;
@@ -178,12 +178,18 @@ export default {
       }
     }
     .user-nickname {
-      background: rgb(126, 113, 113);
+      // background: rgb(126, 113, 113);
     }
     .user-qita {
       min-width: 240rpx;
       height: 100%;
+      
+      margin-top: 50px;
       // background-color: aqua;
+      button {
+        background: brown;
+        color: #fff;
+      }
     }
   }
   .allorder {

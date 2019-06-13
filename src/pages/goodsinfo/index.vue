@@ -26,9 +26,8 @@
           <img :src="picture.imgurl">
         </div>
         <div class="goods-describe">
-          <p>{{goods.describe}}</p>
-          <hr>
-          <p>备注:{{goods.remark}}</p>
+          <p class="g-des">{{goods.describe}}</p>
+          <p class="g-rem">备注:{{goods.remark}}</p>
         </div>
       </div>
       <div class="comments">
@@ -61,7 +60,7 @@
         <van-goods-action-icon icon="chat-o" text="客服"/>
         <van-goods-action-icon icon="cart-o" text="购物车" @click="toShopCar"/>
         <van-goods-action-button text="加入购物车" type="warning" @click="addToShopCar"/>
-        <van-goods-action-button text="立即购买"/>
+        <van-goods-action-button text="立即购买" @click="toCreateOrder"/>
       </van-goods-action>
     </div>
   </div>
@@ -97,8 +96,8 @@ export default {
   },
   methods: {
     toShopCar() {
-      const url = "../shopcar/main";
-      wx.navigateTo({ url });
+      console.log('点击购物车');
+      wx.switchTab({url: '../shopcar/main'})
     },
     async getGoodsInfoById() {
       this.openId = wx.getStorageSync("userinfo").openId;
@@ -113,7 +112,7 @@ export default {
       this.isStar = res.data.isStar;
       this.userInfo = res.data.list[0].user_info;
       this.picture = res.data.list[0].picture[0];
-      console.log("res", res);
+      console.log("res商品详情", res);
       console.log("goods", this.goods);
     },
     async getCommentsByGoodsId() {
@@ -202,6 +201,9 @@ export default {
       //     title: "失败"
       //   });
       // }
+    },
+    toCreateOrder() {
+      wx.navigateTo({url: '../order/main'})
     }
   }
 };
@@ -223,6 +225,7 @@ export default {
         img {
           width: 50px;
           height: 50px;
+          border-radius: 50%;
         }
       }
       .publisher {
@@ -242,6 +245,7 @@ export default {
         float: right;
         color: #ff6a6a;
         .star {
+          text-align: center;
           font-size: 14px;
           img {
             width: 20px;
@@ -252,6 +256,25 @@ export default {
     }
     .goods-content {
       padding: 10px;
+      .goods-pic {
+        img {
+          min-width: 350px;
+          max-width: 400px;
+          margin-top: 20px;
+        }
+      }
+      .goods-describe {
+        .g-des {
+          border-bottom: 1px solid #dfdfdf;
+          // font-size: 12px;
+          padding: 10px 0;
+        }
+        .g-rem {
+          border-bottom: 1px solid #dfdfdf;
+          padding: 10px 0;
+          color: brown
+        }
+      }
       .price {
         color: #ff6a6a;
       }

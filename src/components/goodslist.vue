@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import * as Api from "../utils/request.js";
 export default {
   data() {
     return {
@@ -60,6 +61,9 @@ export default {
         : this.goods.picture[0].imgurl;
     }
   },
+  mounted () {
+    this.getCommentNum()
+  },
   methods: {
     toGoodsInfo() {
       wx.navigateTo({
@@ -68,6 +72,13 @@ export default {
     toComment() {
       const url = "../goodsinfo/main";
       wx.navigateTo({ url });
+    },
+    async getCommentNum() {
+      const res = await Api.getRequest('/weapp/selectcomments',{
+        goodsId: this.goods.goodsid
+      })
+      this.comment = res.data.list.length
+      // console.log('评论', res);
     }
   }
 };
@@ -86,6 +97,7 @@ export default {
           img {
             width: 50px;
             height: 50px;
+            border-radius: 50%;
           }
         }
         .ct {
@@ -113,6 +125,9 @@ export default {
           // max-height: 400rpx;
           // height: auto;
           // width: auto;
+          margin-top: 20px;
+          margin-left: 15px;
+          // margin: 0 auto 10px;
           width: 400rpx;
           height: 400rpx;
           text-align: center;
