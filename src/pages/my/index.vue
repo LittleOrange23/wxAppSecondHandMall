@@ -3,7 +3,7 @@
     <div class="userinfo">
       <div class="user-avatar">
         <!-- <open-data v-if="!userInfo.avatarUrl" type="userAvatarUrl"></open-data> -->
-        <img v-if="!userInfo.avatarUrl" src="/static/images/home/life.png" alt="">
+        <img v-if="!userInfo.avatarUrl" src="/static/images/home/life.png" alt>
         <img v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" alt>
       </div>
       <div class="user-nickname">
@@ -28,7 +28,6 @@
         <img src="/static/images/my/noget.png">
         <span>待收货</span>
       </div>
-      
     </div>
     <div class="content">
       <ul>
@@ -40,32 +39,33 @@
           <img src="/static/images/my/publish.png">
           <span>我发布的</span>
         </li>
-        <li @click="toSoldOut">
+        <!-- <li @click="toSoldOut">
           <img src="/static/images/my/Recieve.png">
           <span>我卖出的</span>
         </li>
         <li @click="toBought">
           <img src="/static/images/my/Send.png">
           <span>我买到的</span>
-        </li>
+        </li>-->
         <li @click="toAddress">
           <img src="/static/images/my/address.png">
           <span>地址管理</span>
         </li>
+        <li @click="toHelp">
+          <img src="/static/images/my/light.png" alt>
+          <span>帮助与反馈</span>
+        </li>
       </ul>
     </div>
-    <div class="help-feedback" @click="toHelp">
-      <img src="/static/images/my/light.png" alt>
-      <span>帮助与反馈</span>
-    </div>
+    <div @click="toHelp"></div>
   </div>
 </template>
 
 <script>
-import qcloud from "wafer2-client-sdk"
-import config from '../../config.js'
-import * as Api from '../../utils/request.js'
-import { mapMutations, mapGetters  } from 'vuex'
+import qcloud from "wafer2-client-sdk";
+import config from "../../config.js";
+import * as Api from "../../utils/request.js";
+import { mapMutations, mapGetters } from "vuex";
 export default {
   components: {},
 
@@ -77,27 +77,27 @@ export default {
   },
   methods: {
     doLogin() {
-      console.log('config.loginUrl', config.loginUrl)
-      qcloud.setLoginUrl(config.loginUrl)
-      const _this = this
+      console.log("config.loginUrl", config.loginUrl);
+      qcloud.setLoginUrl(config.loginUrl);
+      const _this = this;
       qcloud.login({
-        success: function (userinfo) {
-          wx.setStorageSync('userinfo', userinfo)
+        success: function(userinfo) {
+          wx.setStorageSync("userinfo", userinfo);
           // _this.isLogin = true
-          _this.$store.dispatch('setIsLogin', true)
-          _this.$store.dispatch('setOpenId', userinfo.openId)
-          _this.userInfo = userinfo
-          console.log('LoginSuccess', userinfo)
+          _this.$store.dispatch("setIsLogin", true);
+          _this.$store.dispatch("setOpenId", userinfo.openId);
+          _this.userInfo = userinfo;
+          console.log("LoginSuccess", userinfo);
           wx.showToast({
-            title: '授权成功',
-            icon: 'success',
+            title: "授权成功",
+            icon: "success",
             duration: 2000
-          })
+          });
         },
-        fail: function (err) {
-          console.log('登录失败', err)
+        fail: function(err) {
+          console.log("登录失败", err);
         }
-      })
+      });
     },
     toMyStar() {
       const url = "../mystar/main";
@@ -120,36 +120,36 @@ export default {
       wx.navigateTo({ url });
     },
     toAddress() {
-      const url = "../address/main"
-      wx.navigateTo({ url })
+      const url = "../address/main";
+      wx.navigateTo({ url });
     },
     toAllOrder() {
-      const url = "../myorder/main"
-      wx.navigateTo({ url })
+      const url = "../myorder/main";
+      wx.navigateTo({ url });
     }
   },
   computed: {
-    ...mapGetters(['getIsLogin'])
+    ...mapGetters(["getIsLogin"])
   },
   created() {
-    this.userInfo = wx.getStorageSync('userinfo')
-    console.log('me-userinfo', this.userInfo)
+    this.userInfo = wx.getStorageSync("userinfo");
+    console.log("me-userinfo", this.userInfo);
     // 判断用户是否的相关缓存
-    if (wx.getStorageSync('userinfo')) {
+    if (wx.getStorageSync("userinfo")) {
       // 发生过授权
-      this.isLogin = false
+      this.isLogin = false;
 
       // wx.switchTab({
       //   url: '/pages/me/main'
       // })
     } else {
-       this.$store.dispatch('setIsLogin', false)
+      this.$store.dispatch("setIsLogin", false);
     }
   },
   mounted() {
-    console.log('mounted')
-    this.userInfo = wx.getStorageSync('userinfo')
-  },
+    console.log("mounted");
+    this.userInfo = wx.getStorageSync("userinfo");
+  }
 };
 </script>
 
@@ -183,7 +183,7 @@ export default {
     .user-qita {
       min-width: 240rpx;
       height: 100%;
-      
+
       margin-top: 50px;
       // background-color: aqua;
       button {
@@ -235,26 +235,26 @@ export default {
           color: #9c9c9c;
         }
       }
-    }
-  }
-  .help-feedback {
-    width: 750rpx;
-    background: #fff;
-    margin-top: 15px;
-    height: 100px;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    img {
-      /* display: inline; */
-      width: 30px;
-      height: 30px;
-      margin: 10px;
-    }
-    span {
-      position: absolute;
-      top: 13px;
-      font-size: 16px;
-      color: #9c9c9c;
+      .help-feedback {
+        width: 750rpx;
+        background: #fff;
+        margin-top: 15px;
+        height: 100px;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        img {
+          /* display: inline; */
+          width: 30px;
+          height: 30px;
+          margin: 10px;
+        }
+        span {
+          position: absolute;
+          top: 13px;
+          font-size: 16px;
+          color: #9c9c9c;
+        }
+      }
     }
   }
 }

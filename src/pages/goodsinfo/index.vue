@@ -57,10 +57,10 @@
 
     <div class="bottom">
       <van-goods-action>
-        <van-goods-action-icon icon="chat-o" text="客服"/>
+        <van-goods-action-icon icon="chat-o" text="客服" @click="toCustomerService"/>
         <van-goods-action-icon icon="cart-o" text="购物车" @click="toShopCar"/>
         <van-goods-action-button text="加入购物车" type="warning" @click="addToShopCar"/>
-        <van-goods-action-button text="立即购买" @click="toCreateOrder"/>
+        <van-goods-action-button text="立即购买" @click="toBuy"/>
       </van-goods-action>
     </div>
   </div>
@@ -93,6 +93,7 @@ export default {
     this.goodsId = this.$root.$mp.query.goodsId;
     this.getGoodsInfoById();
     this.getCommentsByGoodsId();
+    console.log('',this.goodsId);
   },
   methods: {
     toShopCar() {
@@ -202,8 +203,16 @@ export default {
       //   });
       // }
     },
-    toCreateOrder() {
-      wx.navigateTo({url: '../order/main'})
+    toBuy () {      
+      // 跳转至订单页面 并携带id
+      wx.navigateTo({
+        url: '../directbuy/main?goodsId=' + this.goodsId
+      })
+    },
+    toCustomerService() {
+      wx.navigateTo({
+        url: '../wxAcount/main?goodsId=' + this.goodsId
+      })
     }
   }
 };

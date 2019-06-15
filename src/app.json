@@ -20,7 +20,9 @@
     "pages/addaddress/main",
     "pages/order/main",
     "pages/search/main",
-    "pages/myorder/main"
+    "pages/myorder/main",
+    "pages/directbuy/main",
+    "pages/wxAcount/main"
   ],
   "permission": {
     "scope.userLocation": {
